@@ -8,51 +8,52 @@
 int main()
 {
     bool pass = false;
-    int menu, i, quantidade; // variaveis de menu
+    int menu, i; // variaveis de menu
 
     int cpf[12], d1 = 0, d2 = 0; // variaveis de cpf
     char cpfchar[12];
 
-    int notas[] = {500, 150, 50, 20, 10, 5, 2, 1}; // variaveis de cpf
+    int notas[] = {500, 150, 50, 20, 10, 5, 2, 1}; // variaveis de saque
     int a01, a02, a03, a04, a05, a06;
     int saque, qnt_saque[8];
     int max_notas[8], total = 0;
-    max_notas[0] = 100;
 
+    max_notas[0] = 100;
     for (i = 1; i < 8; i++)
         max_notas[i] = max_notas[i - 1] * 2; // alocando as notas mais rapidamente por serem o dobro uma da outra
     for (i = 0; i < 8; i++)
         total += notas[i] * max_notas[i]; // valor maximo do caixa
-
-    do
-    {
-        do
-        {
+    do {
+        do {
             printf("\n|----------------|\n");
             printf("| MENU PRINCIPAL | ");
             printf("\n|----------------|\n");
-            printf(" 1 - Saque\n");
-            printf(" 2 - Gerente\n");
-            printf(" 3 - Finalizar\n");
-            printf(" --> ");
+            printf(" (1 - Saque)\n");
+            printf(" (2 - Gerente)\n");
+            printf(" (3 - Finalizar)\n --> ");
             scanf("%d", &menu);
-            system("cls");
 
-            if ((menu < 1 || menu > 3))
-                printf("\n|OPCAO INVALIDA|\n    escolha\nentre as opcoes!\n");
-            
+            if ((menu < 1 || menu > 3)) {
+                system("cls");
+                printf("\n| OPCAO INVALIDA |\n");
+            }            
 
         } while (menu < 1 || menu > 3);
 
         switch (menu)
         {
+            // selecao de menu
         case 1:
+            system("cls");
             printf("\n------------------------\n");
             printf("Para cancelar (DIGITE 0)");
             printf("\n------------------------\n");
-            printf("\nDigite seu cpf: ");
+            printf("\n* Somente os numeros *");
+            printf("\nDigite seu CPF: ");
+            
+
             do {
-                d1 = 0, d2 = 0;
+                d1 = 0, d2 = 0; //verificacao do CPF
                 do {
                     scanf("%s", cpfchar);
                     if (atoi(cpfchar) == 0)
@@ -64,7 +65,7 @@ int main()
                         printf("\n------------------------\n");
                         printf("Para cancelar (DIGITE 0)");
                         printf("\n------------------------\n");
-                        printf("\nO cpf deve conter 11 digitos!\nDigite Novamente: ");
+                        printf("\nO CPF deve conter 11 digitos!\nDigite Novamente: ");
                     }
                 } while (strlen(cpfchar) != 11);
                 if (atoi(cpfchar) == 0)
@@ -95,7 +96,7 @@ int main()
                     printf("\n------------------------\n");
                     printf("Para cancelar (DIGITE 0)");
                     printf("\n------------------------\n");
-                    printf("\nCpf Invalido\n\nDigite Seu Cpf Novamente: ");
+                    printf("\nCPF Invalido\n\nDigite o CPF Novamente: ");
                     pass = false;
                 }
                 d1 = 0, d2 = 0;
@@ -104,16 +105,12 @@ int main()
             system("cls");
 
             if (atoi(cpfchar) == 0)
-            {
-                printf("\nRetornando ao menu");
-                usleep(300000);
-                for(int k=0; k<3 ;k++){
-                printf(" .");
-                usleep(300000);
-                }
+            {  //retorna ao menu inicial
+                printf("     Retornando ao menu...\n"), i = 0;
+                system("pause");
                 break;
             }
-            printf(" *  Cpf Aprovado  *\n\n ");
+            printf(" *  CPF Aprovado  *\n ");
 
             i = 0;
             do {
@@ -121,8 +118,8 @@ int main()
                     printf("\n------------------------\n");
                     printf("Para cancelar (DIGITE 0)");
                     printf("\n------------------------\n");
-                    do {
-                        printf("\n Insira o valor do\n saque desejado: ");
+                    do { //efetuacao do saque
+                        printf("\n Insira o valor do saque:\n -->");
                         scanf("%d", &saque);
 
                         if (saque < 0)
@@ -130,9 +127,9 @@ int main()
                             system("cls"); 
                             printf("\n------------------------\n");
                             printf("Para cancelar (DIGITE 0)");
-                            printf("\n------------------------\n");
-                            printf("\n   /~~~~~~~~~~~~~~~~\\\n  /  VALOR INVALIDO  \\\n /~~~~~~~~~~~~~~~~~~~~\\");
-                            printf("\n\n Valor abaixo de zero! \n");
+                            printf("\n------------------------");
+                            printf("\n |   VALOR INVALIDO   |");
+                            printf("\n Valor abaixo de zero! \n");
                         }
                         else if (saque > total)
                         {
@@ -140,75 +137,84 @@ int main()
                             printf("\n------------------------\n");
                             printf("Para cancelar (DIGITE 0)");
                             printf("\n------------------------\n");
-                            printf("\n   /~~~~~~~~~~~~~~~~\\\n  /  VALOR INVALIDO  \\\n /~~~~~~~~~~~~~~~~~~~~\\");
-                            printf("\n\n Valor acima do limite\n disponivel no caixa!");
-                            printf("\n LIMITE ATUAL: %d REAIS\n", total);
+                            printf("\n |   VALOR INVALIDO   |");
+                            printf("\n Valor acima do limite\n disponivel no caixa!\n");
+                            printf("\n LIMITE ATUAL: %d REAIS", total);
                         }
-                    } while (saque < 0 || saque > total);
+                    } while (saque < 0 || saque > total); //verificacao de validade
                     if (saque == 0) {
-                        printf("\nRetornando ao menu");
-                        usleep(300000);
-                        for(int k=0; k<3 ;k++){
-                        printf(" .");
-                        usleep(300000);
-                        }
+                        printf("\n Retornando ao menu...\n"), i = 0;
+                        system("pause");
                         break;
                     }
-        
-                    total -= saque, d1 = saque;
-                    system("cls");
-                    printf("\n----------------------------------------\n\n");
-                    printf("Para o valor de %d reais, Foram sacadas: \n", saque);
+                    total -= saque, d1 = saque; //atualizando valor disponivel em caixa
+                    
                     for (i = 0; i < 8; i++)
                     {
                         qnt_saque[i] = d1 / notas[i];
-                        d1 %= notas[i];
+                        d1 %= notas[i]; //modulo do valor sacado, e fornece o menor valor de cedulas possivel
 
-                        if (qnt_saque[i] > max_notas[i])
-                        {
+                        if (qnt_saque[i] > max_notas[i]) 
+                        {   //coloca a quantia disponivel e zera a quantia de cedulas, devolve o modulo
                             d1 += (qnt_saque[i] - max_notas[i]) * notas[i];
                             qnt_saque[i] = max_notas[i];
                             max_notas[i] = 0;
                         }
                         else
-                            max_notas[i] -= qnt_saque[i];
-
-                        switch (i)
+                            max_notas[i] -= qnt_saque[i]; //subtrai o valor sacado das notas
+                    }
+                    if (d1!=0) {
+                        total+=saque; // devolve o valor quando nao a cedulas suficientes para o saque
+                        for ( i = 0; i < 8; i++)
+                            max_notas[i] += qnt_saque[i];
+                        system("cls");
+                        printf("\nPara o valor de %d reais: ", saque);
+                        printf("\n Troco insuficiente...\n\n");
+                        system("pause");
+                        break;
+                    }
+                    system("cls");
+                    printf("\n----------------------------------------\n\n");
+                    printf("Para o valor de %d reais, Foram sacadas: \n", saque);
+                    
+                    for (i = 0; i < 8; i++)
+                    {
+                        switch (i)  //apresenta a quantia e valor de cada nota sacada
                         {
                         case 0:
-                            if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> Nota(s) de quinhentos reais", qnt_saque[i]);
+                            if (qnt_saque[i] != 0) // quando igual a 0 valor nao aparece na saida
+                                printf("\n| %d | -> Nota(s) de quinhentos reais (500)", qnt_saque[i]);
                             break;
                         case 1:
                             if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> Nota(s) de cento e cinquenta reais", qnt_saque[i]);
+                                printf("\n| %d | -> Nota(s) de cento e cinquenta reais (150) ", qnt_saque[i]);
                             break;
                         case 2:
                             if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> Nota(s) de cinquenta reais", qnt_saque[i]);
+                                printf("\n| %d | -> Nota(s) de cinquenta reais (50)", qnt_saque[i]);
                             break;
                         case 3:
                             if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> Nota(s) de vinte reais", qnt_saque[i]);
+                                printf("\n| %d | -> Nota(s) de vinte reais (20)", qnt_saque[i]);
                             break;
                         case 4:
                             if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> nota(s) de dez reais", qnt_saque[i]);
+                                printf("\n| %d | -> Nota(s) de dez reais (10)", qnt_saque[i]);
                             break;
                         case 5:
                             if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> nota(s) de cinco reais", qnt_saque[i]);
+                                printf("\n| %d | -> Nota(s) de cinco reais (5)", qnt_saque[i]);
                             break;
                         case 6:
                             if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> nota(s) de dois reais", qnt_saque[i]);
+                                printf("\n| %d | -> Nota(s) de dois reais (2)", qnt_saque[i]);
                             break;
                         case 7:
                             if (qnt_saque[i] != 0)
-                                printf("\n|  %d | -> nota(s) de um reais", qnt_saque[i]);
+                                printf("\n| %d | -> Nota(s) de um real (1)", qnt_saque[i]);
                             break;
                         }
-                    }
+                    } //decomponhe o valor do saque para a escrita por extenso
                     printf("\n\nSaque total:\nR$ ");
                     a06 = (saque % 1000000) / 100000;
                     a05 = (saque % 100000) / 10000;
@@ -217,15 +223,15 @@ int main()
                     a02 = (saque % 100) / 10;
                     a01 = (saque % 10);
 
-                    if (a06 == 1){
-                        if (a05 == 0 && a04 == 0)
+                    if (a06 == 1){ 
+                        if (a05 == 0 && a04 == 0) //centenas
                             printf("CEM ");
                         else
                             printf("CENTO E ");
                     }
                     if (a05 == 1)
                     {
-                        if (a04 == 0)
+                        if (a04 == 0) //dezenas
                             printf("DEZ ");
                         else if (a04 == 1)
                             printf("ONZE ");
@@ -246,7 +252,7 @@ int main()
                         else if (a04 == 9)
                             printf("DEZENOVE ");
                     }
-                    else if (a05 == 2)
+                    else if (a05 == 2) // dezenas a passo 10
                         printf("VINTE ");
                     else if (a05 == 3)
                         printf("TRINTA ");
@@ -264,11 +270,11 @@ int main()
                         printf("NOVENTA ");
 
                     if ((a05 != 1 && a05 != 0) && a04 != 0)
-                        printf("E ");
+                        printf("E ");// separacao
 
                     if (a05 != 1)
                     {
-                        if (a04 == 1 && a05 != 0)
+                        if (a04 == 1 && a05 != 0) // unidade
                             printf("UM ");
                         else if (a04 == 2)
                             printf("DOIS ");
@@ -288,12 +294,12 @@ int main()
                             printf("NOVE ");
                     }
                     if (a04 != 0 || a05 != 0 || a06 != 0) {
-                        if ((a03!=0 && a02==0 && a01==0))
+                        if ((a03!=0 && a02==0 && a01==0)) // milhares
                             printf("MIL E ");
                         else if (a03!=0 || (a03==0 && a02==0 && a01==0))
                             printf("MIL ");
                         else if (a03==0 )
-                            printf("MIL E ");
+                            printf("MIL E "); // separacao
                     }
                     if (a03 == 1)
                     {
@@ -302,7 +308,7 @@ int main()
                         else
                             printf("CENTO ");
                     }
-                    if (a03 == 2)
+                    if (a03 == 2)  // centenas
                         printf("DUZENTOS ");
                     else if (a03 == 3)
                         printf("TREZENTOS ");
@@ -319,10 +325,10 @@ int main()
                     else if (a03 == 9)
                         printf("NOVECENTOS ");
                     if (a03 != 0 && !(a02 == 0 && a01 == 0))
-                        printf("E ");
+                        printf("E "); // separacao
 
                     if (a02 == 1) {
-                        if (a01 == 0)
+                        if (a01 == 0) // dezenas
                             printf("DEZ ");
                         else if (a01 == 1)
                             printf("ONZE ");
@@ -343,7 +349,7 @@ int main()
                         else if (a01 == 9)
                             printf("DEZENOVE ");
                     }
-                    else if (a02 == 2)
+                    else if (a02 == 2) // dezenas passo 10
                         printf("VINTE ");
                     else if (a02 == 3)
                         printf("TRINTA ");
@@ -361,10 +367,10 @@ int main()
                         printf("NOVENTA ");
 
                     if (a02 != 0 && a02 != 1 && a01 != 0)
-                        printf("E ");
+                        printf("E "); // separacao
                     if (a02 != 1)
                     {
-                        if (a01 == 1)
+                        if (a01 == 1) // unidade
                             printf("UM ");
                         else if (a01 == 2)
                             printf("DOIS ");
@@ -395,48 +401,48 @@ int main()
                             system("cls");
                             printf("     |OPCAO INVALIDA|");
                         }
-                    } while (i < 0 || i > 1);
+                    } while (i < 0 || i > 1); //verificacao de entradas, retorne ao menu ou saque novamente
                     system("cls");
-                } else {
+                } else { //encerra a opcao de saque, quando nao a mais valor em caixa
                     printf("-->  CAIXA VAZIO!!! <--\n\n");
-                    printf(" Retornando ao menu"), i = 0;
-                    usleep(300000);
-                    for(int k=0; k<3 ;k++){
-                    printf(" .");
-                    usleep(300000);
-                    }
+                    printf("  Retornando ao menu...\n"), i = 0;
+                    system("pause");
                 }
             } while (i);
             break;
 
-        case 2:
-            do {
+        case 2: //menu gerente
+            do { 
                 system("cls");
-                printf("\n|----------------|\n");
-                printf("|  MENU GERENTE  | ");
-                printf("\n|----------------|\n\n");
-                printf(" 1 - Valor Total Sacado\n");
-                printf(" 2 - Saldo Existente\n");
-                printf(" 3 - Cedulas Existentes\n");
-                printf(" 4 - Abastecer Caixa\n");
-                printf(" 5 - Voltar ao menu principal\n --> ");
-                scanf("%d", &menu);
-                system("cls");
-                
+                do{
+                    printf("\n|----------------|\n");
+                    printf("|  MENU GERENTE  | ");
+                    printf("\n|----------------|\n\n");
+                    printf("(1 - Valor Total Sacado)\n");
+                    printf("(2 - Saldo Existente)\n");
+                    printf("(3 - Cedulas Existentes)\n");
+                    printf("(4 - Abastecer Caixa)\n");
+                    printf("(5 - Voltar ao menu principal)\n --> ");
+                    scanf("%d", &menu);
+                    system("cls");
+                    if (menu < 1 || menu > 5)
+                        printf("\n|OPCAO INVALIDA|\n");
+        
+                }while (menu<1 || menu>5);
                 // valor do saldo existente
                 // valor total sacado
                 if (menu==1)
                 {
-                    saque = (173600-total);
-                    printf("*------------------------------------*\n\n");
-                    printf("Valor total sacado: R$ %d \n\nRetirado do caixa:\n", saque);
+                    saque=173600-total;
+                    printf("*---------------------------------------*\n\n");
+                    printf("Valor total sacado: R$ %d \n\nRetirado do caixa:\n", saque); 
                 } else if (menu==2) {
                     saque = total;
-                    printf("*------------------------------------*\n\n");
+                    printf("*---------------------------------------*\n\n");
                     printf("Valor do saldo existente: R$ %d \n\nRestando no caixa:\n", saque);
                 }
-                if ((menu==1 || menu==2)) 
-                {
+                if ((menu==1 || menu==2)) // decomponhe os valores de saldo e total sacado, para a escrita
+                {   
                     if (saque!=0) {
                         a06 = (saque % 1000000) / 100000;
                         a05 = (saque % 100000) / 10000;
@@ -613,11 +619,12 @@ int main()
                         }
                         printf("REAIS");
                     } else
-                        printf("ZERO Reais");
+                        printf("ZERO REAIS"); //quando o valor disponivel ou sacado e nulo
                         
-                    printf("\n\n*------------------------------------*\n");
-                    printf("\n   Para voltar ao menu do gerente\n");
-                    system("pause");
+                    printf("\n\n*---------------------------------------*\n");
+                    printf("\n   Para voltar ao menu do gerente\n"); 
+                    system("pause"); //retorna ao menu
+                    system("cls");
                 }
                 switch (menu) {
                 case 3:
@@ -632,8 +639,8 @@ int main()
                             printf(" ");
                         if (i>=5)
                             printf(" ");
-                        printf("| ( %d ) ", max_notas[i]);
-                        if (max_notas[i]!=0) {
+                        printf("| ( %d ) ", max_notas[i]); //escreve o valor numerico das notas disponiveis
+                        if (max_notas[i]!=0) {// decomponhe para a escrita por extenso
                             a06 = (max_notas[i] % 1000000) / 100000;
                             a05 = (max_notas[i] % 100000) / 10000;
                             a04 = (max_notas[i] % 10000) / 1000;
@@ -802,107 +809,111 @@ int main()
                                     printf("NOVE ");
                             }
                         } else
-                            printf("ZERO ");
-                        printf("REAIS");
+                            printf("ZERO "); // caso o valor seja nulo
                     }                    
                     printf("\n\n*-----------------------------------------------*\n\n");
-                    system("pause");
+                    printf("\n   Para voltar ao menu do gerente\n");
+                    system("pause");// retorna ao menu gerente
+                    system("cls");
                     break;
                 case 4:
+                //reabastece as cedulas
                     do{
                         do {
-                        printf("*---------------------------*\n\n");
-                        printf(" 500 - Cedulas de 500 \n");
-                        printf(" 150 - Cedula de 150 \n");
-                        printf(" 50  - Cedulas de 50 \n");
-                        printf(" 10  - Cedulas de 10 \n");
-                        printf(" 5   - Cedulas de 5 \n");
-                        printf(" 2   - Cedulas de 2 \n");
-                        printf(" 1   - Cedulas de 1 \n");
-                        printf(" 0   - Voltar ao menu gerente\n\n" );
-                        printf("*---------------------------*\n\n --> ");
+                        pass=false; //menu para reabastecer as cedulas
+                        printf("*---------------------------------------*\n\n");
+                        printf(" (500) - Cedulas de 500 \n");
+                        printf(" (150) - Cedulas de 150 \n");
+                        printf(" (50)  - Cedulas de 50 \n");
+                        printf(" (20)  - Cedulas de 20 \n");
+                        printf(" (10)  - Cedulas de 10 \n");
+                        printf(" (5)   - Cedulas de 5 \n");
+                        printf(" (2)   - Cedulas de 2 \n");
+                        printf(" (1)   - Cedulas de 1 \n\n");
+                        printf(" (0)   - Voltar ao menu gerente\n\n" );
+                        printf("*---------------------------------------*\n\n --> ");
                         scanf("%d", &i);
                         system("cls");
-                        if (i!=500 && i!=150 && i!=50 && i!=10 && i!=5 && i!=3 && i!=2 && i!=1 && i!= 0)
-                            printf("   | OPCAO INVALIDA |   \n\n"), i=-1;
-                        
-                        } while(i==(-1));
-                        if (i==0)
+                        if (i!=500 && i!=150 && i!=50 && i!=20 && i!=10 && i!=5 && i!=2 && i!=1 && i!= 0)
+                            printf("   | OPCAO INVALIDA |   \n\n"); // verificacao do valor das notas
+                        else
+                            pass=true;
+                        } while(pass==false);
+                        if (i==0) // retorna ao menu gerente
                             break;
                         
-                        if (i==500)
-                            i=0;
-                        if (i==150)
-                            i=1;
-                        if (i==50)
-                            i=2;
-                        if (i==20)
-                            i=3;
-                        if (i==10)
-                            i=4;
-                        if (i==5)
-                            i=5;
-                        if (i==2)
-                            i=6;
-                        if (i==1)
-                            i=7;
-                        if (max_notas[i] == (100*pow(2, i)))
+                        if (i==500) // 
+                            i=0; //seleciona o tipo de notas para 500
+                        else if (i==150) 
+                            i=1; //seleciona o tipo de notas para 150
+                        else if (i==50)
+                            i=2; //seleciona o tipo de notas para 50
+                        else if (i==20)
+                            i=3; //seleciona o tipo de notas para 20
+                        else if (i==10)
+                            i=4; //seleciona o tipo de notas para 10
+                        else if (i==5)
+                            i=5; //seleciona o tipo de notas para 5
+                        else if (i==2)
+                            i=6; //seleciona o tipo de notas para 2
+                        else if (i==1)
+                            i=7; //seleciona o tipo de notas para 1
+                        if (max_notas[i] == (100*pow(2, i))){ //(100*pow(2, i)) calcula o limite de cedulas que podem ser depositadas
+                            printf("*---------------------------------------*\n");
                             printf("\nAs cedulas de ( %d ) estao CHEIAS!\n\n", notas[i]);
-                        else {
+                            printf("*---------------------------------------*\n");
+
+                        }else {
                             do {
-                                printf("\nCedulas restantes de %d : ( %d )\n\n", notas[i], max_notas[i]);
-                                printf("\nquantas notas de %d quer abastecer?\n--> ", notas[i]);
-                                scanf("%d", &quantidade);
-                                if (quantidade < 0) {
+                                printf("\n   | Cedulas de %d |", notas[i]);  // apresenta a cedula selecionada
+                                printf("\n Celulas Maximas : %d", d2= 100*pow(2, i)); // valor maximo da nota que pode ser alocada
+                                printf("\n Cedulas restantes : %d\n", max_notas[i]); // cedulas disponiveis em caixa
+                                printf("\nQuantas notas de %d quer abastecer?\n--> ", notas[i]);
+                                scanf("%d", &d2);
+                                if (d2 < 0) { // exclui entradas com valor negativo
                                     system("cls");
-                                    printf("            | VALOR INVALIDO |\n");
+                                    printf("   | VALOR INVALIDO |\n");
                                     printf("Valor digitado NAO pode ser menor que zero!!\n");
-                                } else if ((max_notas[i] + quantidade) > (100*pow(2, i)) ){
+                                } else if ((max_notas[i] + d2) > (100*pow(2, i)) ){ // exclue entradas que superam o limite
                                     system("cls");
-                                    printf("            | VALOR INVALIDO |\n");
-                                    printf("Valor digitado maior que o limite de cedulas!!\n");
+                                    printf("   | VALOR INVALIDO |\n");
+                                    printf("Valor digitado excede o limite de cedulas!!\n");
                                 }
-                            } while (quantidade < 0 ||  ((max_notas[i] + quantidade) > (100*pow(2, i)) ));
+                            } while (d2 < 0 ||  ((max_notas[i] + d2) > (100*pow(2, i)) ));
                             system("cls");
                             printf("*---------------------------------------*\n");
-                            if (quantidade!=0)                
-                                printf("\nForam armazenadas %d cedulas de %d\n", quantidade, notas[i]);
-                            else
+                            if (d2!=0) { 
+                                printf("\nForam armazenadas %d cedulas de %d\n", d2, notas[i]); // quantia armazenada
+                                printf("Valor das cedulas armazenadas: %d\n", d2*notas[i]); //quantia total
+                            }
+                            else // valor nulo
                                 printf("\nNao houve nenhuma cedula armazenada\n");
-                            total += quantidade*notas[i];
-                            max_notas[i] += quantidade;
-                            printf("Cedulas totais de %d : ( %d )\n\n", notas[i], max_notas[i]);
+                            total += d2*notas[i];
+                            max_notas[i] += d2; 
+                            printf("\nCedulas totais de %d : ( %d )", notas[i], max_notas[i]);
+                            printf("\nValor total de %d : ( %d ) \n\n", notas[i], max_notas[i]*notas[i]);
                             printf("*---------------------------------------*\n\n");
-                            }        
+                            }   
+                        i=1;    
                         system("pause");
                         system("cls");
-                    } while(i==0);
+                    } while(1);
                     break;
-                case 5:
 
-                    printf(" Retornando ao menu"), i = 0;
-                    usleep(300000);
-                    for(int k=0; k<3 ;k++){
-                    printf(" .");
-                    usleep(300000);
-                    }
+                case 5: // retorna ao menu inicial
+                    printf("      Retornando ao menu...\n"), i = 0;
+                    system("pause");
                     break;
                 }
-            } while (menu!=5);
+            } while (menu!=5); 
             break;
 
-        case 3:
+        case 3: // finaliza o progama
             system("cls");
-            printf("Finalizando programa");
-            usleep(300000);
-            for(int k=0; k<3 ;k++){
-            printf(" .");
-            usleep(300000);
-            }
+            printf("Finalizando programa...\n");
             return 0;
         }
         system("cls");
     } while (1);
-
     return 0;
 }
